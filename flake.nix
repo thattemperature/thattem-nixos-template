@@ -42,12 +42,25 @@
       ...
     }:
 
+    let
+
+      dummyHardware = {
+        boot.loader.grub.device = "nodev";
+        fileSystems."/" = {
+          device = "/dev/disk/by-uuid/00000000-0000-0000-0000-000000000000";
+          fsType = "btrfs";
+        };
+      };
+
+    in
+
     {
       nixosConfigurations = {
 
         default = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
+            dummyHardware
             {
               thattem.nixos.advanced.enable = true;
               thattem.nixos.programming.enable = true;
